@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-app
+  labels:
+    app: weather-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-app
+  template:
+    metadata:
+      labels:
+        app: weather-app
+    spec:
+      containers:
+        - name: weather-app
+          image: ghcr.io/amreshh/weather:0.0.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "1"
+            limits:
+              memory: "512Mi"
+              cpu: "1"
+          ports:
+            - name: http
+              containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-app-service
+spec:
+  selector:
+    app: weather-app
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: weather-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: weather-app.cdaas.minikube
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: weather-app-service
+                port:
+                  number: 80
