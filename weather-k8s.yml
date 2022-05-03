@@ -41,24 +41,3 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: http
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: weather-app-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-    - host: weather-app.cdaas.minikube
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: weather-app-service
-                port:
-                  number: 80
