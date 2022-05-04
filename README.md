@@ -100,4 +100,11 @@ Hubble provides a graphical user interface which displays a service map of your 
 kubectl port-forward -n kube-system svc/hubble-ui 12000:80
 ```
 
-Open [http://localhost:12000](http://localhost:12000) in your browser to access the Hubble UI.
+Open [http://localhost:12000](http://localhost:12000) in your browser to access the Hubble UI and select the weather namespace.
+
+In the Weather App search for a few locations and observe the requests in the Hubble UI.
+![](./images/ui.gif)
+
+# References
+- https://cilium.io/
+- https://github.com/amreshh/weather
