@@ -1,7 +1,7 @@
 # Pre requisites
-- container runtime like docker, podman
-- Minikube > v1.12.1
-- kubectl > v.110.0+
+- container runtime like [docker](https://docs.docker.com/get-docker/), [podman](https://podman.io/getting-started/installation)
+- [minikube](https://minikube.sigs.k8s.io/docs/start/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 # Create the Cluster
 Start minikube with default settings:
