@@ -19,17 +19,19 @@ minikube start --cpus=8 --memory=16384 --driver='podman' --network-plugin=cni
 Install the latest version of the Cilium CLI. The Cilium CLI can be used to install Cilium, inspect the state of a Cilium installation, and enable/disable various features.
 
 ## Linux
+```bash
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-linux-amd64.tar.gz{,.sha256sum}
 sha256sum --check cilium-linux-amd64.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-amd64.tar.gz /usr/local/bin
 rm cilium-linux-amd64.tar.gz{,.sha256sum}
-
+```
 ## macOS
+```bash
 curl -L --remote-name-all https://github.com/cilium/cilium-cli/releases/latest/download/cilium-darwin-amd64.tar.gz{,.sha256sum}
 shasum -a 256 -c cilium-darwin-amd64.tar.gz.sha256sum
 sudo tar xzvfC cilium-darwin-amd64.tar.gz /usr/local/bin
 rm cilium-darwin-amd64.tar.gz{,.sha256sum}
-
+```
 ## Other
 Download the binary for your platform from [https://github.com/cilium/cilium-cli/releases/latest](https://github.com/cilium/cilium-cli/releases/latest)
 
