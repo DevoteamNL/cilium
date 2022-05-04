@@ -4,12 +4,12 @@
 - kubectl > v.110.0+
 
 # Create the Cluster
-
+Start minikube with default settings:
 ```bash
 minikube start --network-plugin=cni
 ```
 
-Running with podman / cri-o and resources
+Start minikube with specified resource limits and driver:
 ```bash
 minikube start --cpus=8 --memory=16384 --driver='podman' --network-plugin=cni
 ```
