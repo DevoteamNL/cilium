@@ -9,7 +9,7 @@ Start minikube with default settings:
 minikube start --network-plugin=cni
 ```
 
-Start minikube with specified resource limits and driver:
+Or start minikube with specified resource limits and driver:
 ```bash
 minikube start --cpus=8 --memory=16384 --driver='podman' --network-plugin=cni
 ```
