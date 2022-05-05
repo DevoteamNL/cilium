@@ -118,7 +118,6 @@ In the Weather App search for a few locations and observe the requests in the Hu
 ![](./images/ui.gif)
 
 # Securing Weather App
-## Scenario 1
 Currently the weather app pod has access to the whole internet, we can verify this by running a curl command from the weather app pod.
 ```bash
 # Get name of the pod
@@ -154,7 +153,7 @@ Cleanup the policy by deleting it:
 kubectl delete -f <path/to/policy>.yml
 ```
 
-## Extra's
+# Extra's
 Enable metrics: https://docs.cilium.io/en/stable/gettingstarted/grafana/#install-metrics
 # References
 - https://cilium.io/
