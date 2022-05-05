@@ -61,7 +61,7 @@ Install Hubble and verify it has been properly installed.
 ```bash
 ❯ cilium hubble enable --ui
 
-❯ cilium status --wait                                                                                                       ﴱ default
+❯ cilium status --wait
     /¯¯\
  /¯¯\__/¯¯\    Cilium:         OK
  \__/¯¯\__/    Operator:       OK
@@ -90,7 +90,16 @@ Image versions    cilium             quay.io/cilium/cilium:v1.11.3@sha256:cb6aac
 We will deploy a Weather App to get familiar with Cilium and Hubble. Deploy the Weather App and forward the frontend port.
 
 ```bash
+# Create the weather namespace
+kubectl create namespace weather
+
+# Switch context to the weather namespace
+kubectl config set-context --current --namespace=weather
+
+# Deploy the weather app
 kubectl apply -f weather-app/
+
+# Forward the frontend port
 kubectl port-forward -n weather svc/weather-app-service 3000:80
 ```
 
@@ -106,6 +115,33 @@ Open [http://localhost:12000](http://localhost:12000) in your browser to access 
 
 In the Weather App search for a few locations and observe the requests in the Hubble UI.
 ![](./images/ui.gif)
+
+# Securing Weather App
+Currently the weather app pod has access to the whole internet, we can verify this by running a curl command from the weather app pod.
+```bash
+# Get name of the pod
+❯ kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+weather-app-7449d64b45-wg4zd   1/1     Running   0          5m50s
+
+# Execute a curl to google, adjust the name to your pod
+❯ kubectl exec -it weather-app-7449d64b45-wg4zd -- curl -I https://www.google.com
+HTTP/2 200
+```
+
+*Note that the request can also be seen in the Hubble UI.*
+
+The weather app only needs to access `api.openweathermap.org`. Secure the weather app by creating a CiliumNetworkPolicy which enables the pod to access the openweathermap API but blocking all other traffic. You can use the online policy editor [https://editor.cilium.io/](https://editor.cilium.io/) to create and apply the policy.
+
+After the policy has been applied, run the curl command again to verify if the traffic is now being blocked.
+```bash
+❯ kubectl exec -it weather-app-7449d64b45-wg4zd -- curl --connect-timeout 5 -I https://www.google.com
+curl: (28) Failed to connect to www.google.com port 443 after 2723 ms: Operation timed out
+command terminated with exit code 28
+```
+
+Search for a new location in the weather app and verify that it is still working. In the Hubble UI we should see traffic being dropped to url's other than that of the openweathermap API.
+![](./images/hubble.png)
 
 # References
 - https://cilium.io/
