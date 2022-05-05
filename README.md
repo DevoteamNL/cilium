@@ -99,7 +99,7 @@ kubectl config set-context --current --namespace=weather
 # Deploy the weather app
 kubectl apply -f weather-app/
 
-# Forward the frontend port
+# Forward the frontend port and keep the terminal open
 kubectl port-forward -n weather svc/weather-app-service 3000:80
 ```
 
@@ -108,6 +108,7 @@ Open [http://localhost:3000/](http://localhost:3000/) in your browser to access 
 # Hubble UI
 Hubble provides a graphical user interface which displays a service map of your service dependencies. To access Hubble UI, you can use the following command to forward the port of the web frontend to your local machine:
 ```bash
+# Keep this terminal open
 kubectl port-forward -n kube-system svc/hubble-ui 12000:80
 ```
 
@@ -117,6 +118,7 @@ In the Weather App search for a few locations and observe the requests in the Hu
 ![](./images/ui.gif)
 
 # Securing Weather App
+## Scenario 1
 Currently the weather app pod has access to the whole internet, we can verify this by running a curl command from the weather app pod.
 ```bash
 # Get name of the pod
@@ -131,7 +133,11 @@ HTTP/2 200
 
 *Note that the request can also be seen in the Hubble UI.*
 
-The weather app only needs to access `api.openweathermap.org`. Secure the weather app by creating a CiliumNetworkPolicy which enables the pod to access the openweathermap API but blocking all other traffic. You can use the online policy editor [https://editor.cilium.io/](https://editor.cilium.io/) to create and apply the policy.
+The weather app only needs to access `api.openweathermap.org`. Secure the weather app by creating a CiliumNetworkPolicy which enables the pod to access the openweathermap API but blocking all other traffic. You can use the online policy editor [https://editor.cilium.io/](https://editor.cilium.io/) to create the policy. After the policy has been created in the editor, save it locally and apply it:
+```bash
+kubectl apply -f <path/to/policy>.yml
+```
+
 
 After the policy has been applied, run the curl command again to verify if the traffic is now being blocked.
 ```bash
@@ -143,6 +149,13 @@ command terminated with exit code 28
 Search for a new location in the weather app and verify that it is still working. In the Hubble UI we should see traffic being dropped to url's other than that of the openweathermap API.
 ![](./images/hubble.png)
 
+Cleanup the policy by deleting it:
+```bash
+kubectl delete -f <path/to/policy>.yml
+```
+
+## Extra's
+Enable metrics: https://docs.cilium.io/en/stable/gettingstarted/grafana/#install-metrics
 # References
 - https://cilium.io/
 - https://github.com/amreshh/weather
