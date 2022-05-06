@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: weather-app
-          image: ghcr.io/amreshh/weather:0.0.1
+          image: ghcr.io/devoteamnl/weather:0.0.1 
           imagePullPolicy: IfNotPresent
           resources:
             requests:
