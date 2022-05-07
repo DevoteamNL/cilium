@@ -11,7 +11,8 @@ minikube start --network-plugin=cni
 
 Or start minikube with specified resource limits and driver:
 ```bash
-minikube start --cpus=8 --memory=16384 --driver='podman' --network-plugin=cni
+# Set the driver to docker if you are using docker
+minikube start --cpus=2 --memory=8192 --driver='podman' --network-plugin=cni
 ```
 
 # Install Cilium
