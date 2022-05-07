@@ -156,6 +156,7 @@ kubectl delete -f <path/to/policy>.yml
 
 # Extra's
 Enable metrics: https://docs.cilium.io/en/stable/gettingstarted/grafana/#install-metrics
+
 # References
 - https://cilium.io/
-- https://github.com//weather
+- https://github.com/DevoteamNL/weather/
